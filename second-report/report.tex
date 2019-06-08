@@ -1,0 +1,54 @@
+% Intended LaTeX compiler: pdflatex
+\documentclass[a4paper, dvipdfmx, 10pt, twocolumn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage{amsmath, amssymb, bm}
+\usepackage{graphics}
+\usepackage{color}
+\usepackage{times}
+\usepackage{longtable}
+\usepackage{minted}
+\usepackage{fancyvrb}
+\usepackage{indentfirst}
+\usepackage{pxjahyper}
+\hypersetup{colorlinks=false, pdfborder={0 0 0}}
+\usepackage[utf8]{inputenc}
+\usepackage[backend=biber, bibencoding=utf8, style=authoryear]{biblatex}
+\usepackage[top=15truemm, bottom=15truemm, left=5truemm, right=5truemm]{geometry}
+\usepackage{ascmac}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\addbibresource{reference.bib}
+\author{コンピュータサイエンス専攻 江畑 拓哉(201920631)}
+\date{}
+\title{コンピュータネットワーク特論 レポート課題 \#2}
+\hypersetup{
+ pdfauthor={コンピュータサイエンス専攻 江畑 拓哉(201920631)},
+ pdftitle={コンピュータネットワーク特論 レポート課題 \#2},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 26.2 (Org mode 9.2.3)}, 
+ pdflang={Ja}}
+\begin{document}
+
+\maketitle
+\section{4.4 Wireless LAN の節で学んだことを、A4用紙１ページ以内でまとめなさい。}
+\label{sec:org107236d}
+802.11 の物理レイヤーでは、Orthogonal Frequency Division Multiplexing(OFDN) という手法が存在する。FDN と対比してこの手法の利点は、FDNは波が重なってしまうとその波を分解して情報を取り出すことが出来ないために波の間に Guardband を設けなければならなず周波数帯域の利用効率が悪いのに対して、波同士の位相を直行させることで重なっても分解してそれぞれの情報を取り出せるようにした点である。\\
+
+また複数のアンテナを用いて送受信を行う手法である MIMO は、それぞれのアンテナごとでずれてしまう波の位相のずれを調整することで、波を強めることが出来る仕組み（逆に調整がうまくいかないと波が弱まってしまうこともある）を取って通信を行っている。\\
+
+MAC Sublayer Protocol では、隠れ局問題、露出局問題に対処することができる Protocol である。隠れ局問題、露出局問題を説明すると、次のようになる。A, B, Cという送受信機があり、A-C間は通信が届かない距離にあることを想定する。隠れ局問題とは、AがBに送信しようとしたとき、先にBへ送信しているCによってBが busy になっているのに、キャリアセンスをしても B が busy であることを A が認識できないため、誤って送信してしまう問題である。露出局問題とは、Aどこかと通信をしているときに、BがCへ送信しようとすると、Aが発している搬送波を受信してしまっているため、Cが受信できないと考えてしまい B が送信できない問題である。この問題に対処するために、2種類の対策である、Point Coordination Function (PCF) と Distributed Coordiantion Function (DCF) がある。PCF は Access Point が複数ある送信機に対して、データを送りたいか訪ね、送りたい機から送ることの出来る機を決める集中制御方式であり、こちらはオプシロンであったために普及しなかった。対してDCFは CSMA/CA (Collision Avoidance) という手法を用い分散制御を行い、こちらが普及している。\\
+\end{document}
