@@ -24,7 +24,7 @@
 #+LATEX_HEADER: \hypersetup{colorlinks=false, pdfborder={0 0 0}}
 #+LATEX_HEADER: \usepackage[utf8]{inputenc}
 #+LATEX_HEADER: \usepackage[backend=biber, bibencoding=utf8, style=authoryear]{biblatex}
-#+LATEX_HEADER: \usepackage[top=15truemm, bottom=15truemm, left=5truemm, right=5truemm]{geometry}
+#+LATEX_HEADER: \usepackage[top=10truemm, bottom=10truemm, left=5truemm, right=5truemm]{geometry}
 #+LATEX_HEADER: \usepackage{ascmac}
 #+LATEX_HEADER: \usepackage{algorithm}
 #+LATEX_HEADER: \usepackage{algorithmic}
@@ -34,9 +34,17 @@
 #+STARTUP: indent overview inlineimages
 * 4.4 Wireless LAN の節で学んだことを、A4用紙１ページ以内でまとめなさい。
   802.11 の物理レイヤーでは、Orthogonal Frequency Division Multiplexing(OFDN) という手法が存在する。FDN と対比してこの手法の利点は、FDNは波が重なってしまうとその波を分解して情報を取り出すことが出来ないために波の間に Guardband を設けなければならなず周波数帯域の利用効率が悪いのに対して、波同士の位相を直行させることで重なっても分解してそれぞれの情報を取り出せるようにした点である。
-  
+
   また複数のアンテナを用いて送受信を行う手法である MIMO は、それぞれのアンテナごとでずれてしまう波の位相のずれを調整することで、波を強めることが出来る仕組み（逆に調整がうまくいかないと波が弱まってしまうこともある）を取って通信を行っている。
-  
+
   MAC Sublayer Protocol では、隠れ局問題、露出局問題に対処することができる Protocol である。隠れ局問題、露出局問題を説明すると、次のようになる。A, B, Cという送受信機があり、A-C間は通信が届かない距離にあることを想定する。隠れ局問題とは、AがBに送信しようとしたとき、先にBへ送信しているCによってBが busy になっているのに、キャリアセンスをしても B が busy であることを A が認識できないため、誤って送信してしまう問題である。露出局問題とは、Aどこかと通信をしているときに、BがCへ送信しようとすると、Aが発している搬送波を受信してしまっているため、Cが受信できないと考えてしまい B が送信できない問題である。この問題に対処するために、2種類の対策である、Point Coordination Function (PCF) と Distributed Coordiantion Function (DCF) がある。PCF は Access Point が複数ある送信機に対して、データを送りたいか訪ね、送りたい機から送ることの出来る機を決める集中制御方式であり、こちらはオプシロンであったために普及しなかった。対してDCFは CSMA/CA (Collision Avoidance) という手法を用い分散制御を行い、こちらが普及している。
 
+  CSMA/CA は初期のものとその次のものの2種類が存在している。前者は送りたいデータがあるときはキャリアセンスし、busyならば idle まで待ち idle ならランダム時間待った上でそれでも idle なら送信を行う、という形式を取っている。データが正しく送れたのかを、受信側からの ACK で判断し、もし ACK がなければ衝突したとみなし、ランダム時間待って再送を行う(binary exponential backoff)。後者では、まず送信側が Request to Send (RTS) を送信側の同一局内に送り、送信側の同一局内の他の送信を止めてもらい、次に RTS を受け取った受信側が受信側の同一局内に Clear to Send(CTS) を周囲に送り、受信側の同一局内の他の送信を止めてもらうことで、通信を行うという方式を取っている。データが正しく送れたのかは初期のものと同様に判断する。
+  
+  尚RTS や CTS を用いて送信を止めることを依頼する際には、どの程度の期間止めてほしいかを Network Allocation Vector (NAV) をそれらに含めることで伝えている。通信にかかわらない機は NAV の期間中、キャリアセンスされても busy と答える。
+  
+  データを送る際には Fragment が用いられる。Fragment とは、フレームを細分化して送る手法で、分割された Fragment にはそれぞれフラグメント番号と More Fragment という情報が含まれる。
+  
+
+  
   
