@@ -3,3 +3,8 @@
 *dvi
 *log
 *tex
+*.tex
+*.log
+*.dvi
+*.aux
+org*
