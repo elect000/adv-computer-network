@@ -49,7 +49,7 @@
   
   一般に送受信端末は常に受信データがあるかどうかを確認し続けることは電源効率が悪いために採用したくない。そのため Power-save mode という手法が取られている。まず常時給電される Access Point が sleep する送受信機のデータをバッファにためておく。次に Access Point は定期的に broadcast でどの受信機にデータが来ているかを知らせ、それを定期的に起きる送受信機が受け取ることで、Access Point へその情報を受け取るように要求する仕組みになっている。
   
-  これらのデータや RTS などを送信する際に、InterFrame Spacing (IFS) と呼ばれる時間的な隙間が設けられている。例えばエラーが発生した際の回復には、一番長い時間的な隙間である Extend IFS (EIFS) が用いられている。同様に Short IFS (SIFS) は RTS とCTS の間や、CTS と データの間、データと ACK の間で用いられており、PCF  IFS (PIFS) は PCF フレームの送信間、 DCF IFS (DIFS) のフレーム間に用いられる。尚 Extend IFS についてはこれよりも次のデータを送信する方を優先する。DCF では ACK の後 DIFS 間待ち、更にランダム時間待ってからデータを送信する。
+  これらのデータや RTS などを送信する際に、InterFrame Spacing (IFS) と呼ばれる時間的な隙間が設けられている。例えばエラーが発生した際の回復には、一番長い時間的な隙間である Extend IFS (EIFS) が用いられている。同様に Short IFS (SIFS) は RTS とCTS の間や、CTS と データの間、データと ACK の間で用いられている。PCF  IFS (PIFS) は PCF フレームの送信間、 DCF IFS (DIFS) は DCF のフレームの送信間に用いられる。尚 Extend IFS についてはこれよりも次のデータを送信する方を優先する。DCF では ACK の後 DIFS 間待ち、更にランダム時間待ってからデータを送信する。尚IFSの長さは、長い順に EIFS > DIFS > PIFS > SIFS である。
 
   フレームの内部構造について触れると、以下の図の形になる。
   
