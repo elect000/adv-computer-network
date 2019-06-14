@@ -1,8 +1,8 @@
-*aux
-*aux
-*dvi
-*log
-*tex
+*.aux
+*.aux
+*.dvi
+*.log
+*.tex
 *.tex
 *.log
 *.dvi
