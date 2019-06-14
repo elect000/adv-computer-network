@@ -23,7 +23,7 @@
 #+LATEX_HEADER: \usepackage{pxjahyper}
 #+LATEX_HEADER: \usepackage[utf8]{inputenc}
 #+LATEX_HEADER: \usepackage[backend=biber, bibencoding=utf8, style=authoryear]{biblatex}
-#+LATEX_HEADER: \usepackage[top=2truemm, bottom=2truemm, left=2truemm, right=2truemm]{geometry}
+#+LATEX_HEADER: \usepackage[top=0truemm, bottom=4truemm, left=3truemm, right=3truemm]{geometry}
 #+LATEX_HEADER: \usepackage{ascmac}
 #+LATEX_HEADER: \usepackage{algorithm}
 #+LATEX_HEADER: \usepackage{algorithmic}
@@ -38,6 +38,9 @@
 
 802.11 の MAC Sublayer Protocol は、隠れ局問題(The hidden station problem)、露出局問題(The exposed station problem)に対処することができる Protocol である。隠れ局問題、露出局問題を説明すると、次のようになる。A, B, Cという送受信機があり、A-C間は通信が届かない距離にあることを想定する。隠れ局問題とは、AがBに送信しようとしたとき、先にBへ送信しているCによってBが busy になっているのに、キャリアセンスをしても B が busy であることを A が認識できないため、誤って送信してしまう問題である。露出局問題とは、Aがどこかと通信をしているときに、BがCへ送信しようとすると、Aが発している搬送波を受信してしまっているため、Cが受信できないと考えてしまい B が送信できない問題である。この問題に対処するために本 Protocol では 2種類の対策、Point Coordination Function (PCF) と Distributed Coordiantion Function (DCF) がある。PCF は Access Point が複数ある送信機に対して、データを送りたいか尋ね、送りたい機から送ることの出来る機を決める集中制御方式であり、こちらはオプシロンであったために普及しなかった。対してDCFは CSMA/CA (Collision Avoidance) という手法を用い分散制御を行い、こちらが普及している。
 
+#+ATTR_LATEX: :width 10cm
+[[./hidden-exposed-problem.png]]
+
   CSMA/CA は初期のものとその次のものの2種類が存在している。前者は送りたいデータがあるときはキャリアセンスし、busyならば idle まで待ち idle ならランダム時間待った上でそれでも idle なら送信を行う、という形式を取っている。またデータが正しく送れたのかを、受信側からの ACK で判断し、もし ACK がなければ衝突したとみなし、ランダム時間待って再送を行う(binary exponential backoff)。後者では、まず送信側が Request to Send (RTS) を送信側の同一局内に送り、送信側の同一局内の他の送信を止めてもらい、次に RTS を受け取った受信側が受信側の同一局内に Clear to Send(CTS) を周囲に送り、受信側の同一局内の他の送信を止めてもらい通信を行うという方式を取っている。またデータが正しく送れたのかは初期のものと同様に判断している。
   
   尚RTS や CTS を用いて送信を止めることを依頼する際には、どの程度の期間止めてほしいかを Network Allocation Vector (NAV) をそれらに含めることで伝えている。通信にかかわらない機は NAV の期間中、キャリアセンスされても busy と答える。この仕組みを Virtual channel sensing という。
@@ -50,7 +53,7 @@
 
   フレームの内部構造について触れると、以下の図の形になる。
   
-  #+ATTR_LATEX: :width 9cm
+  #+ATTR_LATEX: :width 11cm
   [[./frame-struct.png]]
 
   ここで Frame control について説明していく。Version とは Frame の形式のバージョンを示しており、これは現在 00 のみとなっている。Typeとはフレームの大まかな種類を表しており、00=管理、01=制御、10=データ、11=予約 となっている。Subtype とは Type よりも詳細な区分けであり、例えば ACK、RTS、CTS などを区別する。To DS & From DS(Distribution System) とは Access Point などの外部へデータを取りに行く(To DS = 1)、受け取る (From DS = 1) ときのフラグとして用いられる。More Fragment (MF) とはデータをフラグメントに分割して送信する際に付加される情報であり、そのフラグメントに対して次のフラグメントがあれば 1 、次のフラグメントがなくそれでデータの末尾となっていれば 0 となる。Retry は再送されるフレームでは 1 そうでなければ 0 となるフラグである。Power management (Pwr) とは自分が sleep となるときには 1 となり、そうでないときには 0 となる。More とは sleep 状態中の受信機にデータが送られてきていることを示すためのフラグで、送られているときには 1 、そうでないときは 0 となる。Wired Equivalent Privacy (WEP) は、 WEP = 1 のとき WEP による暗号化をしていることを示している。尚現在は WEP ではなく IEEE 802.11i (WPA 2) を使うのが主流になっている。Order (O) はフレームの順序を入れ替えて送信して良いかどうかを示しており、フレームの順序を入れ替えて良いときは 0、そうでないときは 1 となっている。
@@ -59,4 +62,5 @@
 
   Adress 1-4 の Address 数は 2~4 つの3パターンが考えられる。Address 数 2 は Ethrenet を用いた通信で、送信元と宛先の2つとなっている。Address 数 3 は 送信元と宛先に一つの Access Point が必要となるケースで、送信元と宛先、そして間にある Access Point のアドレスとなっている。Address 数 4 は送信元と宛先、そして送信元側の Access Point と宛先側の Access Point のアドレスとなり、これは Access Point 間の通信も必要となるケースである。
   
-  
+  #+ATTR_LATEX: :width 13cm
+  [[./address-diagram.png]]
