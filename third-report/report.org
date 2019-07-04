@@ -1,0 +1,47 @@
+#+TITLE: コンピュータネットワーク特論 レポート課題 #3
+#+AUTHOR: コンピュータサイエンス専攻 江畑 拓哉(201920631)
+# This is a Bibtex reference
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:t arch:headline ^:nil
+#+OPTIONS: author:t broken-links:nil c:nil creator:nil
+#+OPTIONS: d:(not "LOGBOOK") date:nil e:nil email:nil f:t inline:t num:t
+#+OPTIONS: p:nil pri:nil prop:nil stat:t tags:t tasks:t tex:t
+#+OPTIONS: timestamp:nil title:t toc:nil todo:t |:t
+#+LANGUAGE: ja
+#+SELECT_TAGS: export
+#+EXCLUDE_TAGS: noexport
+#+CREATOR: Emacs 26.2 (Org mode 9.2.3)
+#+LATEX_CLASS: extarticle
+#+LATEX_CLASS_OPTIONS: [a4paper, dvipdfmx, 8pt, twocolumn]
+#+LATEX_HEADER: \usepackage{amsmath, amssymb, bm}
+#+LATEX_HEADER: \usepackage{graphics}
+#+LATEX_HEADER: \usepackage{color}
+#+LATEX_HEADER: \usepackage{times}
+#+LATEX_HEADER: \usepackage{longtable}
+#+LATEX_HEADER: \usepackage{minted}
+#+LATEX_HEADER: \usepackage{fancyvrb}
+#+LATEX_HEADER: \usepackage{indentfirst}
+#+LATEX_HEADER: \usepackage{pxjahyper}
+#+LATEX_HEADER: \usepackage[utf8]{inputenc}
+#+LATEX_HEADER: \usepackage[backend=biber, bibencoding=utf8, style=authoryear]{biblatex}
+#+LATEX_HEADER: \usepackage[top=0truemm, bottom=4truemm, left=3truemm, right=3truemm]{geometry}
+#+LATEX_HEADER: \usepackage{ascmac}
+#+LATEX_HEADER: \usepackage{algorithm}
+#+LATEX_HEADER: \usepackage{algorithmic}
+#+LATEX_HEADER: \addbibresource{reference.bib}
+#+DESCRIPTION:
+#+KEYWORDS:
+#+STARTUP: indent overview inlineimages
+* 5.3 Congestion Control Algorithms と 5.4 Quality Of Service の説で学んだことを、A4 用紙1ページ以内でまとめなさい。
+  Congestion Control Algorithms (輻輳制御アルゴリズム) はネットワークの輻輳を防ぐことを目的としている。具体的には次のような状況が発生しないようにすることを目的としている。状況として端末A, B から 1Gbps しか通信できないルータを経由して、それぞれ 1Gbps の通信を行いたいと要求しているものを想定する。この場合ルータは送れないパケットを一旦キューに溜めておく。しかしそのキューが一杯になってしまうと、溢れたパケットはなくなってしまう。つまりこのような溢れてしまう状況を防ぐことが目的になっている。
+  
+  パケットの送信料とパケット到達量の関係についてのグラフを以下に示す。完璧に輻輳を制御できた場合には、線形にパケット到達量が増えていき、サブネットの最大キャリー容量(リンク容量)に到達すると、それ以上パケット到達量が増えないように制御される。対して理想的な場合には、リンク容量に達する直前で線形に増えていたパケット到達量が緩やかな増加となり、やがてキャリー容量に達する。しかし輻輳制御に失敗してしまった場合には、キューから溢れてしまったパケットの再送パケットのために到達パケットが減少してしまう。また輻輳が起きてしまうと同様の理由で送信量も減らす必要も生まれてしまう。
+  
+  輻輳が起きないようにするためのアプローチとしては、(slower/preventative) provisioning、traffic-aware routing, addmission control、traffic throtting、(faster/reactive) load shedding がある。これらは前者から順に対策に時間がかかる。例えば  (slower/preventative) provisioning は、輻輳が起きる前に輻輳しないように設備を増強するアプローチである。
+
+  traffic-aware routing では、輻輳を避けて通信経路を選択するアプローチであるが、問題点としてその経路が安定しないという点がある。具体的な例として、あるグループ West と East では、互いの通信に C-D 経由と E-F 経由の2種類の経路が選択できると考える。もしC-D  が輻輳を起こしてしまった場合、もう片方の E-F 経由の通信路に端末間の通信が集中してしまうことになり、結果として次に E-F 経由の通信が増加してしまう。そして次に E-F で輻輳が起きてしまったために、次に C-D 経由の通信が増加してしまう。これを繰り返すことで経路が安定しなくなってしまう上に、C-D と E-F を均等に通信に用いることができない。
+  
+  Admission Control とは、Connection-Oriented の場合にのみ利用可能なアプローチであある。まずネットワーク上に仮想的なリンク容量を設定した通信路 (Virtual Circuit) を作る。次にこのVirtual Circuit についてパケット量を監視し、もしそれを超えそうな接続要求があれば、その通信を拒否するか、あるいはリンク容量を超えない範囲で通信を行えないか要求元に確認を取る。具体的には、
+
+  
+  
+  
